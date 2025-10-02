@@ -85,13 +85,14 @@ if (defTextarea) {
         let index = 0;
         for (const ch of text) { // 按代码点遍历
             const esc = ch === ' ' ? '&nbsp;' : htmlEscape(ch);
+            const isSpace = (ch === ' ');
             const ok = index === 0 ? isStartChar(ch) : isValidChar(ch);
             if (ok) {
                 // 合法：透明文字用于占位（独立盒子避免背景延伸）
-                arr.push('<span style="display:inline-block; line-height:inherit; color:transparent">' + esc + '</span>');
+                arr.push('<span style="display:inline-block; line-height:inherit; color:transparent' + (isSpace ? '; width:1ch' : '') + '">' + esc + '</span>');
             } else {
                 // 非法：仅当前字符背景标红（独立盒子贴合字符宽度）
-                arr.push('<span style="display:inline-block; line-height:inherit; color:transparent; background-color: rgba(229, 57, 53, 0.35); border-radius:2px">' + esc + '</span>');
+                arr.push('<span style="display:inline-block; line-height:inherit; color:transparent' + (isSpace ? '; width:1ch' : '') + '; background-color: rgba(229, 57, 53, 0.35); border-radius:2px">' + esc + '</span>');
             }
             index += 1;
         }
