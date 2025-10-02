@@ -87,9 +87,11 @@ if (defTextarea) {
             const esc = ch === ' ' ? '&nbsp;' : htmlEscape(ch);
             const ok = index === 0 ? isStartChar(ch) : isValidChar(ch);
             if (ok) {
-                arr.push('<span style="color:transparent">' + esc + '</span>');
+                // 合法：透明文字用于占位（独立盒子避免背景延伸）
+                arr.push('<span style="display:inline-block; line-height:inherit; color:transparent">' + esc + '</span>');
             } else {
-                arr.push('<span style="color:#e53935">' + esc + '</span>');
+                // 非法：仅当前字符背景标红（独立盒子贴合字符宽度）
+                arr.push('<span style="display:inline-block; line-height:inherit; color:transparent; background-color: rgba(229, 57, 53, 0.35); border-radius:2px">' + esc + '</span>');
             }
             index += 1;
         }
